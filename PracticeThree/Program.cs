@@ -1,4 +1,19 @@
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Sinks.File;
+
+var loggerConfiguration = new LoggerConfiguration();
+if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    loggerConfiguration.WriteTo.Console();
+    loggerConfiguration.WriteTo.File("logs/PracticeThree.log");
+}
+else
+{
+    loggerConfiguration.WriteTo.File("logs/PracticeThree.log");
+}
+
+Log.Logger = loggerConfiguration.CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +41,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +50,7 @@ if(app.Environment.EnvironmentName == "Development" || app.Environment.Environme
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    Log.Information("Application raised in " + app.Environment.EnvironmentName + " environment.");
 }
 
 app.UseHttpsRedirection();

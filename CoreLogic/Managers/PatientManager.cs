@@ -44,19 +44,34 @@ public class PatientManager
         return createdPatient;
     }
 
-    //Falta ver excepciones
     public Patient Update(int ci, String name, String lastName)
     {
+        if(ci < 0)
+        {
+            throw new Exception("CI invalid");
+        }
+
         Patient patientFound = _patients.Find(patient => patient.CI == ci);
+
+        if(patientFound == null)
+        {
+            throw new Exception("Patient not found");
+        } 
+
         patientFound.Name = name;
         patientFound.LastName = lastName;
         return patientFound;
     }
 
-    //Falta ver excepciones
     public Patient Delete(int ci)
     {
         int patientToDeleteIndex = _patients.FindIndex(patient => patient.CI == ci);
+
+        if(patientToDeleteIndex == -1)
+        {
+            throw new Exception("Patient not found");
+        }
+
         Patient patientToDelete = _patients[patientToDeleteIndex];
         _patients.RemoveAt(patientToDeleteIndex); 
         return patientToDelete;
@@ -67,9 +82,15 @@ public class PatientManager
         return _patients;
     }
 
-    //Falta ver excepciones
     public Patient GetById(int ci)
     {
-        return _patients.Find(patient => patient.CI == ci);  
+        Patient patientFound = _patients.Find(patient => patient.CI == ci);
+
+        if(patientFound == null)
+        {
+            throw new Exception("Patient not found");
+        }   
+
+        return patientFound;
     }
 }

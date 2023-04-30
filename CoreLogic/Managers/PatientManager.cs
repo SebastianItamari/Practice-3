@@ -87,23 +87,52 @@ public class PatientManager
             String updatedPatient = (CI + "," + name + "," + lastName + "," + group);
             lines[index] = updatedPatient;
             File.WriteAllLines(_path, lines);
-            Patient uPatient = new Patient(){ Name = name, LastName = lastName, CI = ci, Group = group };
-            return uPatient;
+            return new Patient(){ Name = name, LastName = lastName, CI = ci, Group = group };
         }
     }
 
     public Patient Delete(int ci)
     {
-        int patientToDeleteIndex = _patients.FindIndex(patient => patient.CI == ci);
+        String tmp = "../Patients/temp.txt";
+        String name = "";
+        String lastName = "";
+        String group = "";
+        bool finded = false;
+        StreamReader reader = new StreamReader(_path);
+        StreamWriter writer = new StreamWriter(tmp, true);
 
-        if(patientToDeleteIndex == -1)
+        while(!reader.EndOfStream)
+        {
+            string line = reader.ReadLine();
+            string[] data = line.Split(',');
+
+            if(data[0] == ci.ToString())
+            {
+                finded = true;
+                name = data[1];
+                lastName = data[2];
+                group = data[3];
+            }
+            else
+            {
+                writer.WriteLine(line);
+            }
+        }
+
+        writer.Close();
+        reader.Close();
+
+        File.Delete(_path);
+        File.Move(tmp, _path);
+
+        if(finded == false)
         {
             throw new Exception("Patient not found");
         }
-
-        Patient patientToDelete = _patients[patientToDeleteIndex];
-        _patients.RemoveAt(patientToDeleteIndex); 
-        return patientToDelete;
+        else
+        {
+            return new Patient(){ Name = name, LastName = lastName, CI = ci, Group = group };
+        }
     }
 
     public List<Patient> GetAll()
@@ -122,13 +151,20 @@ public class PatientManager
 
     public Patient GetById(int ci)
     {
-        Patient patientFound = _patients.Find(patient => patient.CI == ci);
-
-        if(patientFound == null)
+        StreamReader reader = new StreamReader(_path);
+        while(!reader.EndOfStream)
         {
-            throw new Exception("Patient not found");
-        }   
+            string line = reader.ReadLine();
+            string[] data = line.Split(',');
 
-        return patientFound;
+            if(data[0] == ci.ToString())
+            {
+                reader.Close();
+                return new Patient(){ Name = data[1], LastName = data[2], CI = ci, Group = data[3] };
+            }
+        }
+        
+        reader.Close();
+        throw new Exception("Patient not found");
     }
 }

@@ -33,4 +33,10 @@ public class PatientController : ControllerBase
     {
         return _patientManager.Delete(ci);
     }
+
+    [HttpGet]
+    public List<Patient> Get()
+    {
+        return _patientManager.GetAll();  
+    }
 }

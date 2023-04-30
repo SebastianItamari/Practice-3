@@ -1,14 +1,17 @@
 using System.Globalization;
+using Serilog;
 
 namespace UPB.PracticeThree.Middlewares;
 
 public class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger;
 
-    public ExceptionHandlerMiddleware(RequestDelegate next)
+    public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -20,7 +23,7 @@ public class ExceptionHandlerMiddleware
         }
         catch (System.Exception ex)
         {
-            // Log ex.Message
+            _logger.LogError(ex.Message);
             HandleException(context, ex);
         }
 

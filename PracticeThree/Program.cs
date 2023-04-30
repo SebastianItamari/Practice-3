@@ -2,6 +2,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Sinks.File;
 using UPB.CoreLogic.Managers;
+using UPB.PracticeThree.Middlewares;
 
 var loggerConfiguration = new LoggerConfiguration();
 if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
@@ -47,6 +48,8 @@ builder.Host.UseSerilog();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseGlobalExceptionHandler();
+
 if(app.Environment.EnvironmentName == "Development" || app.Environment.EnvironmentName == "QA" || app.Environment.EnvironmentName == "UAT")
 {
     app.UseSwagger();

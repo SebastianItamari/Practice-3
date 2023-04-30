@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Sinks.File;
+using UPB.CoreLogic.Managers;
 
 var loggerConfiguration = new LoggerConfiguration();
 if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
@@ -18,7 +19,7 @@ Log.Logger = loggerConfiguration.CreateLogger();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSingleton<PatientManager>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

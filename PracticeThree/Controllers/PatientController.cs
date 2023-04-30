@@ -26,4 +26,11 @@ public class PatientController : ControllerBase
     {
         return _patientManager.Update(ci, patientToUpdate.Name, patientToUpdate.LastName);
     }
+
+    [HttpDelete]
+    [Route("{ci}")]
+    public Patient Delete([FromRoute] int ci)
+    {
+        return _patientManager.Delete(ci);
+    }
 }

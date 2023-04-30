@@ -43,4 +43,13 @@ public class PatientManager
         _patients.Add(createdPatient);
         return createdPatient;
     }
+
+    //Falta ver excepciones
+    public Patient Update(int ci, String name, String lastName)
+    {
+        Patient patientFound = _patients.Find(patient => patient.CI == ci);
+        patientFound.Name = name;
+        patientFound.LastName = lastName;
+        return patientFound;
+    }
 }

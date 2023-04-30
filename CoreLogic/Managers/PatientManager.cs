@@ -39,6 +39,11 @@ public class PatientManager
 
     public Patient Create(String name, String lastName, int ci)
     {
+        if(ci < 0)
+        {
+            throw new Exception("CI invalid");
+        }
+
         Patient createdPatient = new Patient(){ Name = name, LastName = lastName, CI = ci, Group = GenerateGruop() };
         _patients.Add(createdPatient);
         return createdPatient;

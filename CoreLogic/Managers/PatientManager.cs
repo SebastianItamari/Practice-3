@@ -52,4 +52,13 @@ public class PatientManager
         patientFound.LastName = lastName;
         return patientFound;
     }
+
+    //Falta ver excepciones
+    public Patient Delete(int ci)
+    {
+        int patientToDeleteIndex = _patients.FindIndex(patient => patient.CI == ci);
+        Patient patientToDelete = _patients[patientToDeleteIndex];
+        _patients.RemoveAt(patientToDeleteIndex); 
+        return patientToDelete;
+    }
 }

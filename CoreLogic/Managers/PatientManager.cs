@@ -61,4 +61,9 @@ public class PatientManager
         _patients.RemoveAt(patientToDeleteIndex); 
         return patientToDelete;
     }
+
+    public List<Patient> GetAll()
+    {
+        return _patients;
+    }
 }

@@ -48,7 +48,9 @@ public class PatientManager
         }
 
         Patient createdPatient = new Patient(){ Name = name, LastName = lastName, CI = ci, Group = GenerateGruop() };
-        _patients.Add(createdPatient);
+        StreamWriter writer = new StreamWriter(_path, true);
+        writer.WriteLine(createdPatient.CI + "," + createdPatient.Name + "," + createdPatient.LastName + "," + createdPatient.Group);
+        writer.Close();
 
         return createdPatient;
     }

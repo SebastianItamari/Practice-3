@@ -66,4 +66,10 @@ public class PatientManager
     {
         return _patients;
     }
+
+    //Falta ver excepciones
+    public Patient GetById(int ci)
+    {
+        return _patients.Find(patient => patient.CI == ci);  
+    }
 }

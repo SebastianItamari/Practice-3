@@ -39,4 +39,11 @@ public class PatientController : ControllerBase
     {
         return _patientManager.GetAll();  
     }
+
+    [HttpGet]
+    [Route("{ci}")]
+    public Patient GetById([FromRoute] int ci)
+    {
+        return _patientManager.GetById(ci);  
+    }
 }

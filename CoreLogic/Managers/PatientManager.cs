@@ -103,8 +103,8 @@ public class PatientManager
 
         while(!reader.EndOfStream)
         {
-            string line = reader.ReadLine();
-            string[] data = line.Split(',');
+            String line = reader.ReadLine();
+            String[] data = line.Split(',');
 
             if(data[0] == ci.ToString())
             {
@@ -140,8 +140,8 @@ public class PatientManager
         StreamReader reader = new StreamReader(_path);
         while(!reader.EndOfStream)
         {
-            string line = reader.ReadLine();
-            string[] data = line.Split(',');
+            String line = reader.ReadLine();
+            String[] data = line.Split(',');
             Patient aux = new Patient(){ Name = data[1], LastName = data[2], CI = int.Parse(data[0]), Group = data[3] };
             _patients.Add(aux);
         }
@@ -154,8 +154,8 @@ public class PatientManager
         StreamReader reader = new StreamReader(_path);
         while(!reader.EndOfStream)
         {
-            string line = reader.ReadLine();
-            string[] data = line.Split(',');
+            String line = reader.ReadLine();
+            String[] data = line.Split(',');
 
             if(data[0] == ci.ToString())
             {

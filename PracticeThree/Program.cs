@@ -32,7 +32,7 @@ var configurationBuilder = new ConfigurationBuilder()
         .AddEnvironmentVariables();
 
 IConfiguration Configuration = configurationBuilder.Build();
-string siteTitle = Configuration.GetSection("Title").Value;
+String siteTitle = Configuration.GetSection("Title").Value;
 
 builder.Services.AddSwaggerGen(options =>
 {

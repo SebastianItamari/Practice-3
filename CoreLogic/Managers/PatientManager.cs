@@ -47,6 +47,20 @@ public class PatientManager
             throw new Exception("CI invalid");
         }
 
+        StreamReader reader = new StreamReader(_path);
+        while(!reader.EndOfStream)
+        {
+            String line = reader.ReadLine();
+            String[] data = line.Split(',');
+
+            if(data[0] == ci.ToString())
+            {
+                reader.Close();
+                throw new Exception("The entered CI has already been registered");
+            }
+        }
+
+        reader.Close();
         Patient createdPatient = new Patient(){ Name = name, LastName = lastName, CI = ci, Group = GenerateGruop() };
         StreamWriter writer = new StreamWriter(_path, true);
         writer.WriteLine(createdPatient.CI + "," + createdPatient.Name + "," + createdPatient.LastName + "," + createdPatient.Group);

@@ -107,6 +107,11 @@ public class PatientManager
 
     public Patient Delete(int ci)
     {
+        if(ci < 0)
+        {
+            throw new Exception("CI invalid");
+        }
+
         String tmp = "../Patients/temp.txt";
         String name = "";
         String lastName = "";
@@ -165,6 +170,11 @@ public class PatientManager
 
     public Patient GetById(int ci)
     {
+        if(ci < 0)
+        {
+            throw new Exception("CI invalid");
+        }
+        
         StreamReader reader = new StreamReader(_path);
         while(!reader.EndOfStream)
         {

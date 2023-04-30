@@ -1,14 +1,17 @@
 using UPB.CoreLogic.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace UPB.CoreLogic.Managers;
 
 public class PatientManager
 {
     private List<Patient> _patients;
+    private readonly String _path;
 
-    public PatientManager()
+    public PatientManager(IConfiguration config)
     {
         _patients = new List<Patient>();
+        _path = config.GetSection("PathPatients").Value;
     }
 
     public String GenerateGruop()
@@ -46,6 +49,7 @@ public class PatientManager
 
         Patient createdPatient = new Patient(){ Name = name, LastName = lastName, CI = ci, Group = GenerateGruop() };
         _patients.Add(createdPatient);
+
         return createdPatient;
     }
 

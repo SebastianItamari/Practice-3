@@ -90,6 +90,15 @@ public class PatientManager
 
     public List<Patient> GetAll()
     {
+        StreamReader reader = new StreamReader(_path);
+        while(!reader.EndOfStream)
+        {
+            string line = reader.ReadLine();
+            string[] data = line.Split(',');
+            Patient aux = new Patient(){ Name = data[1], LastName = data[2], CI = int.Parse(data[0]), Group = data[3] };
+            _patients.Add(aux);
+        }
+        reader.Close();
         return _patients;
     }
 

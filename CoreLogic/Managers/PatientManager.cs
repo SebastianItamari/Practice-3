@@ -62,16 +62,34 @@ public class PatientManager
             throw new Exception("CI invalid");
         }
 
-        Patient patientFound = _patients.Find(patient => patient.CI == ci);
+        String[] lines = File.ReadAllLines(_path);
+        String CI = ci.ToString();
+        int index = -1;
+        String group = "";
 
-        if(patientFound == null)
+        for(int i = 0; i < lines.Length; i++)
+        {
+            String[] fields = lines[i].Split(',');
+            if(fields[0] == CI)
+            {
+                index = i;
+                group = fields[3];
+                break;
+            }
+        }
+
+        if(index == -1)
         {
             throw new Exception("Patient not found");
         } 
-
-        patientFound.Name = name;
-        patientFound.LastName = lastName;
-        return patientFound;
+        else
+        {
+            String updatedPatient = (CI + "," + name + "," + lastName + "," + group);
+            lines[index] = updatedPatient;
+            File.WriteAllLines(_path, lines);
+            Patient uPatient = new Patient(){ Name = name, LastName = lastName, CI = ci, Group = group };
+            return uPatient;
+        }
     }
 
     public Patient Delete(int ci)

@@ -12,6 +12,12 @@ public class PatientManager
     {
         _patients = new List<Patient>();
         _path = config.GetSection("PathPatients").Value;
+        Directory.CreateDirectory(Path.GetDirectoryName(_path));
+        if(!File.Exists(_path))
+        {
+            StreamWriter aux = File.CreateText(_path);
+            aux.Close();
+        }
     }
 
     public String GenerateGruop()

@@ -24,7 +24,7 @@ public class ExceptionHandlerMiddleware
         catch (System.Exception ex)
         {
             _logger.LogError(ex.Message);
-            HandleException(context, ex);
+            await HandleException(context, ex);
         }
 
     }

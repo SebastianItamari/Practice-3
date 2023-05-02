@@ -54,9 +54,9 @@ public class PatientManager
         }
 
         StreamReader reader = new StreamReader(_path);
-        while(!reader.EndOfStream)
+        String? line;
+        while((line = reader.ReadLine()) != null)
         {
-            String line = reader.ReadLine();
             String[] data = line.Split(',');
 
             if(data[0] == ci.ToString())
@@ -67,7 +67,7 @@ public class PatientManager
         }
 
         reader.Close();
-        Patient createdPatient = new Patient(){ Name = name, LastName = lastName, CI = ci, Group = GenerateGruop() };
+        Patient createdPatient = new Patient(ci,name,lastName,GenerateGruop());
         StreamWriter writer = new StreamWriter(_path, true);
         writer.WriteLine(createdPatient.CI + "," + createdPatient.Name + "," + createdPatient.LastName + "," + createdPatient.Group);
         writer.Close();
@@ -107,7 +107,7 @@ public class PatientManager
             String updatedPatient = (CI + "," + name + "," + lastName + "," + group);
             lines[index] = updatedPatient;
             File.WriteAllLines(_path, lines);
-            return new Patient(){ Name = name, LastName = lastName, CI = ci, Group = group };
+            return new Patient(ci,name,lastName,group);
         }
     }
 
@@ -125,10 +125,10 @@ public class PatientManager
         bool finded = false;
         StreamReader reader = new StreamReader(_path);
         StreamWriter writer = new StreamWriter(tmp, true);
+        String? line;
 
-        while(!reader.EndOfStream)
+        while((line = reader.ReadLine()) != null)
         {
-            String line = reader.ReadLine();
             String[] data = line.Split(',');
 
             if(data[0] == ci.ToString())
@@ -156,18 +156,18 @@ public class PatientManager
         }
         else
         {
-            return new Patient(){ Name = name, LastName = lastName, CI = ci, Group = group };
+            return new Patient(ci,name,lastName,group);
         }
     }
 
     public List<Patient> GetAll()
     {
         StreamReader reader = new StreamReader(_path);
-        while(!reader.EndOfStream)
+        String? line;
+        while((line = reader.ReadLine()) != null)
         {
-            String line = reader.ReadLine();
             String[] data = line.Split(',');
-            Patient aux = new Patient(){ Name = data[1], LastName = data[2], CI = int.Parse(data[0]), Group = data[3] };
+            Patient aux = new Patient(int.Parse(data[0]),data[1],data[2],data[3]);
             _patients.Add(aux);
         }
         reader.Close();
@@ -182,15 +182,15 @@ public class PatientManager
         }
         
         StreamReader reader = new StreamReader(_path);
-        while(!reader.EndOfStream)
+        String? line;
+        while((line = reader.ReadLine()) != null)
         {
-            String line = reader.ReadLine();
             String[] data = line.Split(',');
 
             if(data[0] == ci.ToString())
             {
                 reader.Close();
-                return new Patient(){ Name = data[1], LastName = data[2], CI = ci, Group = data[3] };
+                return new Patient(ci,data[1],data[2],data[3]);
             }
         }
         
